@@ -84,9 +84,9 @@ export class CdkReadlingParquetStack extends cdk.Stack {
     lambdaS3event.addEventSource(s3PutEventSource);
 
     // lambda for lambdaEventChecker
-    const lambdaEventChecker = new lambda.Function(this, `lambda-eventChecker-${projectName}`, {
+  /*  const lambdaEventChecker = new lambda.Function(this, `lambda-eventChecker-${projectName}`, {
       description: 'lambda for Event Checking',
-      functionName:`lambda-eventChecker-${projectName}`,
+      functionName:`lambda-eventChecker-for-${projectName}`,
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_9,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-event-checker')),
@@ -98,22 +98,22 @@ export class CdkReadlingParquetStack extends cdk.Stack {
       }
     });
     lambdaEventChecker.addEventSource(new SqsEventSource(queueS3PutItem));
-    s3Bucket.grantReadWrite(lambdaEventChecker); // permission for s3
+    s3Bucket.grantReadWrite(lambdaEventChecker); // permission for s3 */
 
     // lambda-reading-parquet
-    /*const lambdaReadingParquet = new lambda.DockerImageFunction(this, `lambda-for-${projectName}`, {
-      description: 'lambda for chat using websocket',
-      functionName: `lambda-chat-ws-for-${projectName}`,
-      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../lambda-chat-ws')),
+    const lambdaReadingParquet = new lambda.DockerImageFunction(this, `lambda-for-${projectName}`, {
+      description: 'lambda for reading parquet',
+      functionName: `lambda-reading-parquet`,
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../lambda-reading-parquet')),
       timeout: cdk.Duration.seconds(300),
-      memorySize: 8192,
+      memorySize: 2048,
       environment: {
         bucket: s3Bucket.bucketName,
         sqsUrl: queueS3PutItem.queueUrl,
       }
     });     
-    lambdaEventChecker.addEventSource(new SqsEventSource(queueS3PutItem));
-    s3Bucket.grantReadWrite(lambdaEventChecker); // permission for s3 */
+    lambdaReadingParquet.addEventSource(new SqsEventSource(queueS3PutItem));
+    s3Bucket.grantReadWrite(lambdaReadingParquet); // permission for s3 
     
   } 
 }
