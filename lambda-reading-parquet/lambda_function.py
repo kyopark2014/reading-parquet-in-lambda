@@ -23,13 +23,10 @@ def lambda_handler(event, context):
         timestamp = jsonbody['timestamp']
         print("timestamp: ", timestamp)
 
-        prompt = json.loads(jsonbody['prompt'])
-        print("prompt: ", prompt)
-        
-        bucket = prompt['bucket']
+        bucket = jsonbody['bucket']
         print("bucket: ", bucket)
 
-        key = prompt['key']
+        key = jsonbody['key']
         print("key: ", key)
 
         # delete queue
