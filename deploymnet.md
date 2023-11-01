@@ -1,17 +1,5 @@
 # 인프라 설치하기
 
-## Bedrock 사용 권한 설정하기
-
-현재(2023.10월) Bedrock 사용리전은 아래와 같습니다.
-
-![image](https://github.com/kyopark2014/question-answering-chatbot-with-vector-store/assets/52392004/1690aaab-5e1e-4c27-b4a2-1fd3cabf536c)
-
-여기서 us-east-1 (N. Virginia)을 사용합니다. [Model access](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess)에 접속해서 [Edit]를 선택하여 모든 모델을 사용할 수 있도록 설정합니다. 특히 Anthropic Claude와 "Titan Embeddings G1 - Text"은 LLM 및 Vector Embedding을 위해서 반드시 사용이 가능하여야 합니다.
-
-![image](https://github.com/kyopark2014/question-answering-chatbot-with-vector-store/assets/52392004/112fa4f6-680b-4cbf-8018-3bef6514ccf3)
-
-
-
 ## CDK를 이용한 인프라 설치하기
 
 
@@ -42,13 +30,13 @@ chmod a+rx resize.sh && ./resize.sh 80
 4) 소스를 다운로드합니다.
 
 ```java
-git clone https://github.com/kyopark2014/korean-chatbot-using-amazon-bedrock
+git clone https://github.com/kyopark2014/reading-parquet-in-lambda
 ```
 
 5) cdk 폴더로 이동하여 필요한 라이브러리를 설치합니다.
 
 ```java
-cd korean-chatbot-using-amazon-bedrock/cdk-chatbot-with-rag/ && npm install
+cd reading-parquet-in-lambda/cdk-readling-parquet/ && npm install
 ```
 
 6) CDK 사용을 위해 Boostraping을 수행합니다.
