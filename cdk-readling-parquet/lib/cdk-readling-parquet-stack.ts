@@ -99,5 +99,21 @@ export class CdkReadlingParquetStack extends cdk.Stack {
     });
     lambdaEventChecker.addEventSource(new SqsEventSource(queueS3PutItem));
     s3Bucket.grantReadWrite(lambdaEventChecker); // permission for s3
-  }
+
+    // lambda-reading-parquet
+    /*const lambdaReadingParquet = new lambda.DockerImageFunction(this, `lambda-for-${projectName}`, {
+      description: 'lambda for chat using websocket',
+      functionName: `lambda-chat-ws-for-${projectName}`,
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../lambda-chat-ws')),
+      timeout: cdk.Duration.seconds(300),
+      memorySize: 8192,
+      environment: {
+        bucket: s3Bucket.bucketName,
+        sqsUrl: queueS3PutItem.queueUrl,
+      }
+    });     
+    lambdaEventChecker.addEventSource(new SqsEventSource(queueS3PutItem));
+    s3Bucket.grantReadWrite(lambdaEventChecker); // permission for s3 */
+    
+  } 
 }

@@ -5,7 +5,6 @@ import os
 s3 = boto3.client('s3')
 sqs = boto3.client('sqs')
 sqsUrl = os.environ.get('sqsUrl')
-import awswrangler as wr
 
 def lambda_handler(event, context):
     print(event)
@@ -31,15 +30,7 @@ def lambda_handler(event, context):
 
         key = jsonbody['key']
         print("key: ", key)
-
-
-        path=f"s3://{S3_OUTPUT_BUCKET_NAME.lower()}/{log_data['table_name'].lower()}/pr_account_id={log_data['account_id']}/pr_stat_date={log_data['stat_date'] }/"    
-        # df = wr.s3.read_parquet(path=path, dataset=True)
-        df = wr.s3.read_parquet(path=path, dataset=False, use_threads=4)
-        # df = wr.s3.read_parquet(path=path, dataset=False, use_threads=True)
    
-        print(f'{df.index}')
-
         # delete queue
         try:
             sqs.delete_message(QueueUrl=sqsUrl, ReceiptHandle=receiptHandle)
