@@ -31,7 +31,15 @@ def lambda_handler(event, context):
 
         key = jsonbody['key']
         print("key: ", key)
-   
+
+        path=f"s3://{bucket}/{key}"    
+        print("path: ", path)
+
+        df = wr.s3.read_parquet(path=path, dataset=True)
+        # df = wr.s3.read_parquet(path=path, dataset=False, use_threads=4)
+        # df = wr.s3.read_parquet(path=path, dataset=False, use_threads=True)   
+        print(f'{df}')
+
         # delete queue
         try:
             sqs.delete_message(QueueUrl=sqsUrl, ReceiptHandle=receiptHandle)
