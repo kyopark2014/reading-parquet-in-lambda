@@ -14,6 +14,11 @@
 
 ## 시험 방법
 
+parquet 파일들(샘플)을 다운로드 합니다.
+
+```text
+cd ~/ && mkdir data/ && cd data && curl https://raw.githubusercontent.com/kyopark2014/reading-parquet-in-lambda/main/data.zip -o data.zip && unzip data.zip
+```
 
 data folder에 있는 모든 parquet 파일을 서버로 전송합니다. 파일이 업로드될때마다 해당 폴더의 모든 parquet의 정보를 읽도록 해서 throttling이 발생하는지 확인합니다.
 
@@ -24,6 +29,6 @@ aws s3 cp . s3://storage-reading-parquet/data/ --recursive
 
 ## 시험 결과
 
-다수의 event를 발생시켰음에도 특별한 문제없이 처리되었습니다.
+cloudwatch의 로그를 보면, 다수의 event를 발생시켰음에도 특별한 문제없이 처리되었습니다.
 
 ![image](https://github.com/kyopark2014/reading-parquet-in-lambda/assets/52392004/35e4194a-042a-4c34-96cd-40500ccfd13a)
