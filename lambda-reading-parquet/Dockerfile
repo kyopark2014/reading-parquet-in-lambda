@@ -7,6 +7,6 @@ COPY . ..
 
 # RUN /var/lang/bin/python3.11 -m pip install --upgrade pip
 
-# RUN /var/lang/bin/python3 -m pip install awswrangler
+RUN /var/lang/bin/python3 -m pip install awswrangler
 
 CMD ["lambda_function.lambda_handler"]

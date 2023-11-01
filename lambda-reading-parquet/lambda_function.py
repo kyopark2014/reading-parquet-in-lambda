@@ -1,6 +1,7 @@
 import json
 import boto3
 import os
+import awswrangler as wr
 
 s3 = boto3.client('s3')
 sqs = boto3.client('sqs')
