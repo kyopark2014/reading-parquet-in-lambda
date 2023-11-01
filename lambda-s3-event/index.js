@@ -1,9 +1,6 @@
 const aws = require('aws-sdk');
-const dynamo = new aws.DynamoDB.DocumentClient();
 const sqs = new aws.SQS({apiVersion: '2012-11-05'});
-const tableName = process.env.tableName;
 const sqsUrl = process.env.sqsUrl;
-const itemTableName = process.env.tableName.itemTableName;
 
 exports.handler = async (event, context) => {
     //console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env));
@@ -21,53 +18,15 @@ exports.handler = async (event, context) => {
         console.log('bucket: ' + bucket);
         console.log('key: ' + key);
 
-        let splitKey = key.split("/");
-        console.log('splitKey: ' + splitKey);
-        console.log('length: ' + splitKey.length);
-
-        let emotion, favorite, fname;
-
-        if (splitKey.length == 3) {
-            emotion = splitKey[1];
-            console.log('emotion: ', emotion);
-            fname = splitKey[2];
-            console.log('fname: ', fname);
-        }
-        else if (splitKey.length == 4) {
-            emotion = splitKey[1];
-            console.log('emotion: ', splitKey[1]);
-            favorite = splitKey[2];
-            console.log('favorite: ', splitKey[2]);
-            fname = splitKey[3];
-            console.log('fname: ', splitKey[3]);
-        }
-        else {
-            console.log('error: ', splitKey);
-        }
-
         if (eventName == 'ObjectCreated:Put') {
             let date = new Date();
             const timestamp = Math.floor(date.getTime()/1000.0);
             console.log('timestamp: ', timestamp);
 
-            let searchKey;
-            if (splitKey.length >= 4) {
-                searchKey = emotion + '/' + favorite;
-            }
-            else if (splitKey.length == 3) {
-                searchKey = emotion;
-            }
-            else {
-                return {
-                    statusCode: 500,
-                    body: splitKey
-                };
-            }
-
             const jsonData = {
-                key: key,
                 timestamp: timestamp,
-                searchKey: searchKey
+                bucket: bucket,
+                key: key
             };
             console.log('jsonData: ', JSON.stringify(jsonData));
 
@@ -88,39 +47,6 @@ exports.handler = async (event, context) => {
             } catch (err) {
                 console.log(err);
             }             
-        }
-        else if (eventName == 'ObjectRemoved:Delete') {
-            // emotin-garden
-            var params = {
-                TableName: tableName,
-                Key: {
-                    ObjKey: key,
-                },
-            };
-            
-            dynamo.delete(params, function (err, data) {
-                if (err) {
-                    console.log('Failure: ' + err);
-                } else {
-                    console.log("emotion garden: deleteItem succeeded:", JSON.stringify(data, null, 2));
-                }
-            });
-
-            // personalize
-            var personalzeParams = {
-                TableName: itemTableName,
-                Key: {
-                    ITEM_ID: key,
-                },
-            };
-            
-            dynamo.delete(personalzeParams, function (err, data) {
-                if (err) {
-                    console.log('Failure: ' + err);
-                } else {
-                    console.log("personalize: deleteItem succeeded:", JSON.stringify(data, null, 2));
-                }
-            });
         }
     }
 

@@ -83,8 +83,21 @@ export class CdkReadlingParquetStack extends cdk.Stack {
     });
     lambdaS3event.addEventSource(s3PutEventSource);
 
-
-
-
+    // lambda for lambdaReadParquet
+    const lambdaReadParquet = new lambda.Function(this, `lambda-${projectName}`, {
+      description: 'lambda for reading parquet files',
+      functionName:`lambda-${projectName}`,
+      handler: 'lambda_function.lambda_handler',
+      runtime: lambda.Runtime.PYTHON_3_9,
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-reading-parquet')),
+      timeout: cdk.Duration.seconds(300),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        bucket: s3Bucket.bucketName,
+        sqsUrl: queueS3PutItem.queueUrl,
+      }
+    });
+    lambdaReadParquet.addEventSource(new SqsEventSource(queueS3PutItem));
+    s3Bucket.grantReadWrite(lambdaReadParquet); // permission for s3
   }
 }
