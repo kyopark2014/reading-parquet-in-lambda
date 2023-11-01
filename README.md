@@ -14,4 +14,12 @@
 
 ## 시험 방법
 
+
+data folder에 있는 모든 parquet 파일을 서버로 전송합니다. 파일이 업로드될때마다 해당 폴더의 모든 parquet의 정보를 읽도록 해서 throttling이 발생하는지 확인합니다.
+
+```text
+cd ~/data
+aws s3 cp . s3://storage-reading-parquet/data/ --recursive
+```
+
 ## 시험 결과
