@@ -83,13 +83,13 @@ export class CdkReadlingParquetStack extends cdk.Stack {
     });
     lambdaS3event.addEventSource(s3PutEventSource);
 
-    // lambda for lambdaReadParquet
-    const lambdaReadParquet = new lambda.Function(this, `lambda-${projectName}`, {
-      description: 'lambda for reading parquet files',
-      functionName:`lambda-${projectName}`,
+    // lambda for lambdaEventChecker
+    const lambdaEventChecker = new lambda.Function(this, `lambda-eventChecker-${projectName}`, {
+      description: 'lambda for Event Checking',
+      functionName:`lambda-eventChecker-${projectName}`,
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_9,
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-reading-parquet')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-event-checker')),
       timeout: cdk.Duration.seconds(300),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
@@ -97,7 +97,7 @@ export class CdkReadlingParquetStack extends cdk.Stack {
         sqsUrl: queueS3PutItem.queueUrl,
       }
     });
-    lambdaReadParquet.addEventSource(new SqsEventSource(queueS3PutItem));
-    s3Bucket.grantReadWrite(lambdaReadParquet); // permission for s3
+    lambdaEventChecker.addEventSource(new SqsEventSource(queueS3PutItem));
+    s3Bucket.grantReadWrite(lambdaEventChecker); // permission for s3
   }
 }
