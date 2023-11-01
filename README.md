@@ -23,3 +23,7 @@ aws s3 cp . s3://storage-reading-parquet/data/ --recursive
 ```
 
 ## 시험 결과
+
+다수의 event를 발생시켰음에도 특별한 문제없이 처리되었습니다.
+
+![image](https://github.com/kyopark2014/reading-parquet-in-lambda/assets/52392004/35e4194a-042a-4c34-96cd-40500ccfd13a)
