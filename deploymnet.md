@@ -56,6 +56,4 @@ cdk bootstrap aws://account-id/ap-northeast-2
 8) 인프라를 설치합니다.
 
 ```java
-cdk deploy --all
-```
-9) 설치가 완료되면 브라우저에서 아래와 같이 WebUrl를 확인하여 브라우저를 이용하여 접속합니다.
+cdk deploy 
