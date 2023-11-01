@@ -35,10 +35,15 @@ def lambda_handler(event, context):
         path=f"s3://{bucket}/data/"    
         print("path: ", path)
 
-        df = wr.s3.read_parquet(path=path, dataset=True)
+        df = wr.s3.read_parquet(
+            path=path, 
+            path_suffix = ".parquet",
+            dataset=True
+        )
         # df = wr.s3.read_parquet(path=path, dataset=False, use_threads=4)
         # df = wr.s3.read_parquet(path=path, dataset=False, use_threads=True)   
         print(f'{df}')
+        print(f'index: {df.index}')
 
         # delete queue
         try:
