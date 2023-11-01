@@ -32,7 +32,7 @@ def lambda_handler(event, context):
         key = jsonbody['key']
         print("key: ", key)
 
-        path=f"s3://{bucket}/{key}"    
+        path=f"s3://{bucket}/data/"    
         print("path: ", path)
 
         df = wr.s3.read_parquet(path=path, dataset=True)
