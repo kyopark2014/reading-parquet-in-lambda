@@ -8,6 +8,10 @@
 
 ## 설치 방법
 
+[deploymnet.md](https://github.com/kyopark2014/reading-parquet-in-lambda/blob/main/deploymnet.md)에 따라 인프라를 AWS CDK를 이용하여 설치합니다.
+
+
+
 ## 시험 방법
 
 ## 시험 결과
